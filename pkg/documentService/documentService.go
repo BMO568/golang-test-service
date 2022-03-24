@@ -7,7 +7,9 @@ import (
 	"myTest/pkg/models"
 	"myTest/pkg/repositories"
 	"sort"
+	"strconv"
 	"sync"
+	"time"
 )
 
 type DocumentService interface {
@@ -39,11 +41,22 @@ func (s documentService) AddDocument(ctx context.Context, document models.Docume
 }
 
 func (s documentService) GetDocumentById(ctx context.Context, id int32) (*models.Document, error) {
-	document, err := s.repository.GetDocumentById(ctx, id)
 
-	if err != nil {
-		fmt.Println(err)
-		return nil, err
+	var document *models.Document
+	documentI, exists := s.cache.Get(strconv.Itoa(int(id)))
+
+	if exists != nil {
+		var err error
+		document, err = s.repository.GetDocumentById(ctx, id)
+
+		if err != nil {
+			fmt.Println(err)
+			return nil, err
+		}
+
+		s.cache.SetWithTTL(strconv.Itoa(int(id)), document, 15*time.Minute)
+	} else {
+		document = documentI.(*models.Document)
 	}
 
 	sortOptionsInDocs(document)
