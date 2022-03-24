@@ -113,6 +113,8 @@ func addNewDoc() {
 
 	json_data, err := json.Marshal(document)
 
+	// fmt.Println(string(json_data))
+
 	if err != nil {
 		panic(err)
 	}
