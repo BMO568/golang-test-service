@@ -48,6 +48,9 @@ func NewReindexerDocumentRepo(reindexerDb *reindexer.Reindexer) (DocumentReposit
 
 func (rr *reindexerRepo) CreateDocument(ctx context.Context, document models.Document) (int, error) {
 	count, err := rr.reindexerDb.Insert(rr.documentsNamespace, &document)
+	if count == 0 && err == nil {
+		err = errors.New("entity already exists")
+	}
 	return count, err
 }
 

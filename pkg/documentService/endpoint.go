@@ -45,9 +45,15 @@ func MakeDeleteDocumentByIdEndpoint(srv DocumentService) endpoint.Endpoint {
 	) (interface{}, error) {
 		req := request.(DocumentByIdRequest)
 		status, err := srv.DeleteDocumentById(ctx, req.Id)
+		if err != nil {
+			return DeleteDocumentByIdResponse{
+				Status: status,
+				Err:    err.Error(),
+			}, nil
+		}
 		return DeleteDocumentByIdResponse{
 			Status: status,
-			Err:    err,
+			Err:    "",
 		}, nil
 	}
 }
@@ -59,7 +65,16 @@ func MakeAddDocumentEndpoint(srv DocumentService) endpoint.Endpoint {
 	) (interface{}, error) {
 		req := request.(DocumentRequest)
 		msg, err := srv.AddDocument(ctx, req.document)
-		return SetDocumentResponse{Msg: msg, Err: err}, nil
+		if err != nil {
+			return SetDocumentResponse{
+				Msg: msg,
+				Err: err.Error(),
+			}, nil
+		}
+		return SetDocumentResponse{
+			Msg: msg,
+			Err: "",
+		}, nil
 	}
 }
 
@@ -70,6 +85,15 @@ func MakeUpdateDocumentEndpoint(srv DocumentService) endpoint.Endpoint {
 	) (interface{}, error) {
 		req := request.(DocumentRequest)
 		msg, err := srv.UpdateDocument(ctx, req.document)
-		return SetDocumentResponse{Msg: msg, Err: err}, nil
+		if err != nil {
+			return SetDocumentResponse{
+				Msg: msg,
+				Err: err.Error(),
+			}, nil
+		}
+		return SetDocumentResponse{
+			Msg: msg,
+			Err: "",
+		}, nil
 	}
 }

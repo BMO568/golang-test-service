@@ -32,12 +32,12 @@ type GetAllDocumentsResponse struct {
 
 type SetDocumentResponse struct {
 	Msg string `json:"msg"`
-	Err error  `json:"error,omitempty"`
+	Err string `json:"error,omitempty"`
 }
 
 type DeleteDocumentByIdResponse struct {
 	Status string `json:"status"`
-	Err    error  `json:"error,omitempty"`
+	Err    string `json:"error,omitempty"`
 }
 
 func DecodeGetDocumentByIdRequest(_ context.Context, r *http.Request) (interface{}, error) {
