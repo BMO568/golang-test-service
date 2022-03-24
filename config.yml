@@ -1,0 +1,10 @@
+version: "3.9"
+server:
+  port: "8000"
+  host: "localhost"
+
+database:
+  user: "user"
+  pass: "pass"
+  address: "127.0.0.1:6534"
+  dbname: "testdb"

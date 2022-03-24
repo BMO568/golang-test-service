@@ -1,0 +1,7 @@
+version: "3.9"
+services:
+  reindexer:
+    image: reindexer/reindexer
+    ports:
+      - "9088:9088"
+      - "6534:6534"
